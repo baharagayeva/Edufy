@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "VxXbuuQ6a7Q=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Microsol\\Desktop\\Edufy\\Edufy\\Edufy.API\\Edufy.API.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Microsol\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.1\\microsoft.aspnetcore.openapi.10.0.1.nupkg.sha512",
+    "C:\\Users\\Microsol\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
