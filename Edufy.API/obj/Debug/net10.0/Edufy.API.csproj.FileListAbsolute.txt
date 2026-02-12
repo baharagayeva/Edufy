@@ -57,3 +57,5 @@ C:\Users\Microsol\Desktop\Edufy\Edufy\Edufy.API\obj\Debug\net10.0\refint\Edufy.A
 C:\Users\Microsol\Desktop\Edufy\Edufy\Edufy.API\obj\Debug\net10.0\Edufy.API.pdb
 C:\Users\Microsol\Desktop\Edufy\Edufy\Edufy.API\obj\Debug\net10.0\Edufy.API.genruntimeconfig.cache
 C:\Users\Microsol\Desktop\Edufy\Edufy\Edufy.API\obj\Debug\net10.0\ref\Edufy.API.dll
+C:\Users\Microsol\Desktop\Edufy\Edufy\Edufy.API\bin\Debug\net10.0\MediatR.dll
+C:\Users\Microsol\Desktop\Edufy\Edufy\Edufy.API\bin\Debug\net10.0\MediatR.Contracts.dll

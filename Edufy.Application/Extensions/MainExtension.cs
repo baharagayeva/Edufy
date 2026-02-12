@@ -10,7 +10,7 @@ public static class MainExtension
         services.AddEfCore(configuration);
         services.AddServices();
         services.AddAuth(configuration);
-        // services.AddMediatr();
+        services.AddMediatr();
         // services.AddAutoMapper();
         // services.AddStrategies();
         // services.AddFactories();
