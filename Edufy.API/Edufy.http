@@ -1,0 +1,6 @@
+@Edufy_HostAddress = http://localhost:5185
+
+GET {{Edufy_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

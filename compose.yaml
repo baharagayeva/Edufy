@@ -1,0 +1,7 @@
+﻿services:
+  edufy:
+    image: edufy
+    build:
+      context: .
+      dockerfile: Edufy/Dockerfile
+

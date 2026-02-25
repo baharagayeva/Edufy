@@ -1,0 +1,19 @@
+using System.Threading;
+using System.Threading.Tasks;
+using Edufy.Application.Commons;
+using Edufy.Application.CQRS.Queries.Requests;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Edufy.Controllers;
+
+[ApiController]
+[Route("api/home")]
+[Authorize]
+public class HomeController(IMediator mediator) : ControllerBase
+{
+    [HttpGet]
+    public async Task<IActionResult> Get(CancellationToken ct)
+        => (await mediator.Send(new GetHomeQueryRequest(), ct)).ToActionResult();
+}
