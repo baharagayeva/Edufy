@@ -6,7 +6,7 @@ namespace Edufy.Domain.Services;
 
 public interface ITokenService
 {
-    string CreateAccessToken(User user, IReadOnlyList<string> roles);
+    string CreateAccessToken(User user, IEnumerable<string> roles);
     string GenerateRefreshToken();
     string Sha256Base64(string input);
     int AccessTokenExpiresInSeconds();

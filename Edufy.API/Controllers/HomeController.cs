@@ -1,5 +1,3 @@
-using System.Threading;
-using System.Threading.Tasks;
 using Edufy.Application.Commons;
 using Edufy.Application.CQRS.Queries.Requests;
 using MediatR;

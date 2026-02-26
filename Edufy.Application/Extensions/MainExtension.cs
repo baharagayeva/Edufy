@@ -9,7 +9,7 @@ public static class MainExtension
     {
         services.AddEfCore(configuration);
         services.AddServices();
-        services.AddAuth(configuration);
+        services.AddJwtAuth(configuration);
         services.AddMediatr();
     }
 }

@@ -13,7 +13,7 @@ public class EdufyDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
     } 
     
-    public required DbSet<RefreshToken> RefreshTokens { get; set; }
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
     public required DbSet<User> Users { get; set; }
     public required DbSet<Lesson> Lessons { get; set; }
     public required DbSet<InstructorProfile> InstructorProfiles { get; set; }

@@ -4,8 +4,8 @@ namespace Edufy.Domain.Abstractions;
 
 public interface ICurrentUser
 {
-    bool IsAuthenticated { get; }
-    Guid? UserId { get; }
-    string? FullName { get; }
+    Guid UserId { get; }
+    string? Email { get; }
     string? Role { get; }
+    string? FullName { get; }
 }

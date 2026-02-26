@@ -1,9 +1,5 @@
-using System;
-using System.Security.Claims;
-using System.Threading;
-using System.Threading.Tasks;
 using Edufy.Application.Commons;
-using Edufy.Domain.DTOs;
+using Edufy.Domain.DTOs.AuthDTOs;
 using Edufy.Domain.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +21,11 @@ public class AuthController(IAuthService auth) : ControllerBase
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh([FromBody] string refreshToken, CancellationToken ct)
         => (await auth.RefreshAsync(refreshToken, ct)).ToActionResult();
+    
+    [Authorize]
+    [HttpPost("set-role")]
+    public async Task<IActionResult> SetRole([FromBody] SetRoleRequest req, CancellationToken ct)
+        => (await auth.SetRoleAsync(req.Role, ct)).ToActionResult();
 
     [Authorize]
     [HttpPost("logout")]
@@ -34,11 +35,5 @@ public class AuthController(IAuthService auth) : ControllerBase
     [Authorize]
     [HttpGet("me")]
     public async Task<IActionResult> Me(CancellationToken ct)
-    {
-        var sub = User.FindFirstValue("sub");
-        if (!Guid.TryParse(sub, out var userId))
-            return Unauthorized();
-
-        return (await auth.MeAsync(userId, ct)).ToActionResult();
-    }
+        => (await auth.MeAsync(ct)).ToActionResult();
 }

@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Edufy.Domain.DTOs;
+using Edufy.Domain.DTOs.AuthDTOs;
 using Edufy.Domain.Entities;
 using Edufy.Domain.Services;
 using Microsoft.Extensions.Options;
@@ -17,14 +15,16 @@ public class TokenService(IOptions<JwtOptions> opt) : ITokenService
 {
     private readonly JwtOptions _opt = opt.Value;
 
-    public string CreateAccessToken(User user, IReadOnlyList<string> roles)
+    public string CreateAccessToken(User user, IEnumerable<string> roles)
     {
         var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new(JwtRegisteredClaimNames.Email, user.Email ?? ""),
+            new(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new(ClaimTypes.Name, user.UserName ?? user.Email ?? string.Empty)
         };
+
         claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_opt.Key));

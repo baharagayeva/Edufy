@@ -1,52 +1,79 @@
-using System;
 using System.Text;
 using Edufy.Domain.DTOs;
-using Edufy.Domain.Entities;
-using Edufy.SqlServer.DbContext;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using Edufy.Domain.DTOs.AuthDTOs;
 
 namespace Edufy.Application.Extensions;
 
 public static class RegisterAuthentication
 {
-    public static void AddAuth(this IServiceCollection services, IConfiguration configuration)
+    public static void AddJwtAuth(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
-        
+
+        var jwt = configuration.GetSection("Jwt").Get<JwtOptions>()
+                  ?? throw new InvalidOperationException("Jwt settings are missing.");
+
+        if (string.IsNullOrWhiteSpace(jwt.Key))
+            throw new InvalidOperationException("Jwt:Key is missing.");
+
         services
-            .AddIdentity<User, IdentityRole<Guid>>(opt =>
+            .AddAuthentication(options =>
             {
-                opt.Password.RequiredLength = 8;
-                opt.User.RequireUniqueEmail = true;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddEntityFrameworkStores<EdufyDbContext>()
-            .AddDefaultTokenProviders();
-
-        var jwt = configuration.GetSection("Jwt").Get<JwtOptions>()!;
-
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(opt =>
+            .AddJwtBearer(options =>
             {
-                opt.TokenValidationParameters = new TokenValidationParameters
+                // debugging üçün faydalıdır (dev-də saxla)
+                options.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = ctx =>
+                    {
+                        var logger = ctx.HttpContext.RequestServices
+                            .GetRequiredService<ILoggerFactory>()
+                            .CreateLogger("JwtAuth");
+
+                        logger.LogWarning(ctx.Exception, "JWT authentication failed");
+                        return Task.CompletedTask;
+                    },
+                    OnChallenge = ctx =>
+                    {
+                        // Burada da log yaza bilərsən istəsən
+                        return Task.CompletedTask;
+                    }
+                };
+
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
                     ValidIssuer = jwt.Issuer,
+
+                    ValidateAudience = true,
                     ValidAudience = jwt.Audience,
+
+                    ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key)),
-                    ClockSkew = TimeSpan.FromSeconds(30)
+
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero, // testdə rahat debugging edir
+
+                    NameClaimType = ClaimTypes.NameIdentifier,
+                    RoleClaimType = ClaimTypes.Role
                 };
             });
 
-        services.AddAuthorizationBuilder()
-            .AddPolicy("HasAppRole", p =>
-                p.RequireAssertion(ctx =>
-                    ctx.User.IsInRole("Teacher") || ctx.User.IsInRole("Student")));
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("StudentOnly", p => p.RequireRole("Student"));
+            options.AddPolicy("TeacherOnly", p => p.RequireRole("Teacher"));
+            options.AddPolicy("AnyAppUser", p => p.RequireRole("Student", "Teacher"));
+        });
     }
 }
