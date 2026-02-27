@@ -1,5 +1,3 @@
-using System;
-
 namespace Edufy.Domain.Entities;
 
 public class RefreshToken

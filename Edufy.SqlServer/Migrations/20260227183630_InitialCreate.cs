@@ -181,8 +181,7 @@ namespace Edufy.SqlServer.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    UserId1 = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: false),
                     Bio = table.Column<string>(type: "text", nullable: false),
                     PhotoUrl = table.Column<string>(type: "text", nullable: true),
@@ -192,8 +191,8 @@ namespace Edufy.SqlServer.Migrations
                 {
                     table.PrimaryKey("PK_InstructorProfiles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_InstructorProfiles_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_InstructorProfiles_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalSchema: "gp_edufy",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -209,6 +208,7 @@ namespace Edufy.SqlServer.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     TokenHash = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ExpiresAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     RevokedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     ReplacedByTokenHash = table.Column<string>(type: "text", nullable: true)
@@ -410,10 +410,10 @@ namespace Edufy.SqlServer.Migrations
                 column: "InstructorProfileId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InstructorProfiles_UserId1",
+                name: "IX_InstructorProfiles_UserId",
                 schema: "gp_edufy",
                 table: "InstructorProfiles",
-                column: "UserId1");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Lessons_CourseModuleId_Order",

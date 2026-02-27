@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Edufy.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+af25af6c19877a9052305f51f7451b1dc8e306cd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6d16fd03ba5daa7aabe9fb7d968dbf9596f9a6f6")]
 [assembly: System.Reflection.AssemblyProductAttribute("Edufy.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Edufy.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
