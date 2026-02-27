@@ -128,7 +128,6 @@ public sealed class AuthService(
         {
             UserId = rt.UserId,
             TokenHash = newHash,
-            CreatedAt =  DateTime.UtcNow,
             ExpiresAt = tokens.RefreshTokenExpiresAtUtc()
         });
 
@@ -197,7 +196,6 @@ public sealed class AuthService(
         {
             UserId = user.Id,
             TokenHash = refreshHash,
-            CreatedAt = DateTime.UtcNow,
             ExpiresAt = tokens.RefreshTokenExpiresAtUtc()
         });
 
