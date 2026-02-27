@@ -1,4 +1,3 @@
-using System;
 using Edufy.Domain.Entities;
 using Edufy.Domain.EntityConfigurations;
 using Microsoft.AspNetCore.Identity;
